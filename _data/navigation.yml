@@ -7,12 +7,15 @@
 # NOTE that only one of the CV options should be selected, the first is for the
 #      Markdown formatted page while the second is generated using JSON.
 
+# main links
 main:
   - title: "Clinical Trials"
-    url: /trials/
+    url: /clinical-trials/
   - title: "Resource Allocation"
-    url: /resources/
+    url: /resource-allocation/
   - title: "Teaching & Mentoring"
     url: /teaching/
   - title: "Curriculum Vitae"
     url: /cv/
+  - title: "Markdown Guide"
+    url: /markdown/
