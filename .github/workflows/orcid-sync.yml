@@ -1,8 +1,8 @@
 name: Sync ORCID Publications
 on:
   schedule:
-    - cron: '0 0 * * 0'
-  workflow_dispatch:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight
+  workflow_dispatch: # Allows you to trigger it manually
 
 jobs:
   orcid-to-pages:
@@ -19,39 +19,50 @@ jobs:
       - name: Install bibtexparser
         run: pip install bibtexparser
 
-      - name: Fetch BibTeX from ORCID
+      - name: Fetch and Convert ORCID
         run: |
-          # 1. Ensure the directory exists
-          mkdir -p _publications
+          # 1. Fetch BibTeX from your specific ORCID
+          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" -H "Accept: application/x-bibtex" > papers.bib
           
-          # 2. Fetch the file
-          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/external-identifiers" -H "Accept: application/x-bibtex" > _publications/papers.bib
-
-          # 3. Run a simple python script to split the BibTeX into .md files
+          # 2. Run python script to create the .md files Jekyll expects
           python - <<EOF
           import bibtexparser
           import os
-          
+
+          if not os.path.exists('_publications'):
+              os.makedirs('_publications')
+
           with open('papers.bib') as bibtex_file:
               bib_database = bibtexparser.load(bibtex_file)
-          
+
           for entry in bib_database.entries:
-              filename = f"_publications/{entry.get('year', '0000')}-{entry['ID']}.md"
+              # Logic for Paper Types
+              category = "Journal"
+              if entry.get('ENTRYTYPE') == 'inproceedings':
+                  category = "Conference"
+              elif entry.get('ENTRYTYPE') == 'book':
+                  category = "Book"
+              
+              # Creating a safe filename
+              clean_id = entry['ID'].replace('/', '_')
+              filename = f"_publications/{entry.get('year', '0000')}-{clean_id}.md"
+              
               with open(filename, 'w') as f:
                   f.write("---\n")
-                  f.write(f"title: \"{entry['title']}\"\n")
+                  f.write(f"title: \"{entry.get('title', 'Untitled')}\"\n")
                   f.write(f"collection: publications\n")
+                  f.write(f"category: {category}\n")
                   f.write(f"date: {entry.get('year', '0000')}-01-01\n")
                   f.write(f"venue: \"{entry.get('journal', entry.get('booktitle', 'Unknown'))}\"\n")
                   f.write("---\n")
-                  f.write(f"\n{entry.get('abstract', '')}\n")
+                  f.write(f"\n{entry.get('abstract', 'No abstract available.')}\n")
           EOF
 
-      - name: Commit changes
+      - name: Commit and Push changes
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
-          git add _publications/papers.bib
-          # Added || echo to prevent failure if there are no changes to commit
-          git commit -m "Auto-update publications bib" || echo "No changes to commit"
+          git add _publications/*.md
+          # The '|| exit 0' ensures the workflow doesn't fail if there's nothing new to commit
+          git commit -m "Auto-sync ORCID publications" || exit 0
           git push
