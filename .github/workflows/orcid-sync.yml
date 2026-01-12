@@ -25,51 +25,57 @@ jobs:
           import time
 
           orcid_id = "0000-0003-3376-0260"
-          output_dir = "_publications"
-          output_file = os.path.join(output_dir, "papers.bib")
+          output_file = "_publications/papers.bib"
           
-          if not os.path.exists(output_dir):
-              os.makedirs(output_dir)
+          if not os.path.exists("_publications"):
+              os.makedirs("_publications")
 
-          # 1. Fetch the activities summary via Requests
           print(f"Fetching summary for {orcid_id}...")
-          summary_url = f"https://pub.orcid.org/v3.0/{orcid_id}/activities"
-          response = requests.get(summary_url, headers={"Accept": "application/json"})
+          # Using the /works endpoint for a cleaner JSON list
+          url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
+          response = requests.get(url, headers={"Accept": "application/json"})
           
           if response.status_code != 200:
-              print(f"Failed to fetch summary. Status: {response.status_code}")
+              print(f"API Error: {response.status_code}")
               exit(1)
 
           data = response.json()
           
-          # Navigate the nested JSON structure
-          groups = data.get('activities-summary', {}).get('works', {}).get('group', [])
-          print(f"Found {len(groups)} work groups.")
+          # This is the specific path for your profile
+          groups = data.get('group', [])
+          
+          # FALLBACK: If group is not at root, try activities-summary path
+          if not groups:
+              groups = data.get('activities-summary', {}).get('works', {}).get('group', [])
 
-          # 2. Fetch individual BibTeX entries
+          print(f"Groups found: {len(groups)}")
+
           bib_content = []
           for group in groups:
+              # Each group contains 'work-summary'
               summaries = group.get('work-summary', [])
-              if not summaries: continue
-              
-              put_code = summaries[0].get('put-code')
-              print(f"Fetching BibTeX for put-code: {put_code}")
-              
-              work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
-              work_res = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
-              
-              if work_res.status_code == 200:
-                  bib_content.append(work_res.text)
-              else:
-                  print(f"Error fetching {put_code}: {work_res.status_code}")
-              
-              time.sleep(0.1) # Be kind to the API
+              for work in summaries:
+                  put_code = work.get('put-code')
+                  if not put_code: continue
+                  
+                  print(f"Downloading BibTeX for: {put_code}")
+                  work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
+                  work_res = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
+                  
+                  if work_res.status_code == 200 and len(work_res.text) > 10:
+                      bib_content.append(work_res.text)
+                  
+                  time.sleep(0.05) # Faster but safe
 
-          # 3. Write the file (This replaces the old one entirely)
-          with open(output_file, 'w') as f:
-              f.write("\n\n".join(bib_content))
-          
-          print(f"Successfully wrote {len(bib_content)} entries to {output_file}")
+          if bib_content:
+              with open(output_file, 'w') as f:
+                  f.write("\n\n".join(bib_content))
+              print(f"SUCCESS: Wrote {len(bib_content)} entries.")
+          else:
+              print("ERROR: No BibTeX content was gathered.")
+              # Write a small comment so the file isn't 0 bytes
+              with open(output_file, 'w') as f:
+                  f.write("% No publications found or privacy settings blocked access.")
           EOF
 
       - name: Commit and Push
@@ -77,5 +83,5 @@ jobs:
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
           git add _publications/papers.bib
-          git commit -m "Full rewrite of papers.bib from ORCID" || exit 0
+          git commit -m "Updated papers.bib" || exit 0
           git push
