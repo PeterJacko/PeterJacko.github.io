@@ -12,37 +12,50 @@ jobs:
       - name: Fetch and Append BibTeX
         run: |
           mkdir -p _publications
-          # Create an empty file to start
-          > _publications/papers.bib
+          # Reset the file
+          echo "" > _publications/papers.bib
           
-          # 1. Get the list of all "put-codes" (IDs) in JSON format
+          # 1. Get the list of IDs (JSON)
           curl -H "Accept: application/json" "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" > summary.json
           
-          # 2. Use a simple python loop to get BibTeX for each ID and append it
+          # 2. Python loop with corrected pathing
           python3 - <<EOF
           import json
           import requests
           import time
 
-          with open('summary.json') as f:
-              data = json.load(f)
+          try:
+              with open('summary.json') as f:
+                  data = json.load(f)
+          except Exception as e:
+              print(f"Error loading JSON: {e}")
+              exit(1)
           
+          # Corrected path: data['group'] is usually the list
           groups = data.get('group', [])
-          print(f"Found {len(groups)} works. Starting download...")
+          print(f"Total work groups found: {len(groups)}")
 
           with open('_publications/papers.bib', 'a') as bib_file:
               for group in groups:
-                  put_code = group['work-summary'][0]['put-code']
+                  # ORCID groups can have multiple 'work-summary' entries; we take the first
+                  summaries = group.get('work-summary', [])
+                  if not summaries:
+                      continue
+                      
+                  put_code = summaries[0].get('put-code')
+                  if not put_code:
+                      continue
+
                   url = f"https://pub.orcid.org/v3.0/0000-0003-3376-0260/work/{put_code}"
-                  
-                  # Requesting BibTeX for the specific individual work
                   res = requests.get(url, headers={"Accept": "application/x-bibtex"})
                   
                   if res.status_code == 200:
                       bib_file.write(res.text + "\n\n")
-                      print(f"Downloaded put-code: {put_code}")
+                      print(f"Successfully added put-code: {put_code}")
+                  else:
+                      print(f"Failed to fetch put-code {put_code}: Status {res.status_code}")
                   
-                  time.sleep(0.2) # Polite delay
+                  time.sleep(0.1) 
           EOF
 
       - name: Commit and Push
