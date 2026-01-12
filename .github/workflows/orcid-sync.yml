@@ -9,54 +9,67 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Fetch and Append BibTeX
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Sync Script
         run: |
-          mkdir -p _publications
-          echo "" > _publications/papers.bib
-          
-          # 1. Fetch the full activities summary (JSON)
-          curl -H "Accept: application/json" "https://pub.orcid.org/v3.0/0000-0003-3376-0260/activities" > summary.json
-          
-          # 2. Python logic with deeper path finding
           python3 - <<EOF
-          import json
           import requests
+          import os
           import time
 
-          try:
-              with open('summary.json') as f:
-                  data = json.load(f)
-          except Exception as e:
-              print(f"JSON Load Error: {e}")
+          orcid_id = "0000-0003-3376-0260"
+          output_dir = "_publications"
+          output_file = os.path.join(output_dir, "papers.bib")
+          
+          if not os.path.exists(output_dir):
+              os.makedirs(output_dir)
+
+          # 1. Fetch the activities summary via Requests
+          print(f"Fetching summary for {orcid_id}...")
+          summary_url = f"https://pub.orcid.org/v3.0/{orcid_id}/activities"
+          response = requests.get(summary_url, headers={"Accept": "application/json"})
+          
+          if response.status_code != 200:
+              print(f"Failed to fetch summary. Status: {response.status_code}")
               exit(1)
 
-          # Debugging: Print the top-level keys to see where 'works' is hiding
-          print(f"Root keys: {list(data.keys())}")
+          data = response.json()
           
-          # The path is usually activities-summary -> works -> group
-          activities = data.get('activities-summary', {})
-          works_obj = activities.get('works', {})
-          groups = works_obj.get('group', [])
+          # Navigate the nested JSON structure
+          groups = data.get('activities-summary', {}).get('works', {}).get('group', [])
+          print(f"Found {len(groups)} work groups.")
 
-          print(f"Work groups found: {len(groups)}")
+          # 2. Fetch individual BibTeX entries
+          bib_content = []
+          for group in groups:
+              summaries = group.get('work-summary', [])
+              if not summaries: continue
+              
+              put_code = summaries[0].get('put-code')
+              print(f"Fetching BibTeX for put-code: {put_code}")
+              
+              work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
+              work_res = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
+              
+              if work_res.status_code == 200:
+                  bib_content.append(work_res.text)
+              else:
+                  print(f"Error fetching {put_code}: {work_res.status_code}")
+              
+              time.sleep(0.1) # Be kind to the API
 
-          if not groups:
-              print("Attempting fallback path for groups...")
-              groups = data.get('group', []) # Original path check
-
-          with open('_publications/papers.bib', 'a') as bib_file:
-              for group in groups:
-                  summaries = group.get('work-summary', [])
-                  if not summaries: continue
-                      
-                  put_code = summaries[0].get('put-code')
-                  url = f"https://pub.orcid.org/v3.0/0000-0003-3376-0260/work/{put_code}"
-                  res = requests.get(url, headers={"Accept": "application/x-bibtex"})
-                  
-                  if res.status_code == 200:
-                      bib_file.write(res.text + "\n\n")
-                      print(f"Added: {put_code}")
-                  time.sleep(0.1)
+          # 3. Write the file (This replaces the old one entirely)
+          with open(output_file, 'w') as f:
+              f.write("\n\n".join(bib_content))
+          
+          print(f"Successfully wrote {len(bib_content)} entries to {output_file}")
           EOF
 
       - name: Commit and Push
@@ -64,5 +77,5 @@ jobs:
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
           git add _publications/papers.bib
-          git commit -m "Updated papers.bib" || exit 0
+          git commit -m "Full rewrite of papers.bib from ORCID" || exit 0
           git push
