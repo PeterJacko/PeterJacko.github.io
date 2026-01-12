@@ -19,12 +19,15 @@ jobs:
       - name: Install bibtexparser
         run: pip install bibtexparser
 
-      - name: Fetch and Convert ORCID
+      - name: Fetch BibTeX from ORCID
         run: |
-          # 1. Fetch BibTeX
-          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/external-identifiers" -H "Accept: application/x-bibtex" > papers.bib
+          # 1. Ensure the directory exists
+          mkdir -p _publications
           
-          # 2. Run a simple python script to split the BibTeX into .md files
+          # 2. Fetch the file
+          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/external-identifiers" -H "Accept: application/x-bibtex" > _publications/papers.bib
+
+          # 3. Run a simple python script to split the BibTeX into .md files
           python - <<EOF
           import bibtexparser
           import os
@@ -48,6 +51,7 @@ jobs:
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
-          git add _publications/*.md
-          git commit -m "Auto-split ORCID papers into markdown" || exit 0
+          git add _publications/papers.bib
+          # Added || echo to prevent failure if there are no changes to commit
+          git commit -m "Auto-update publications bib" || echo "No changes to commit"
           git push
