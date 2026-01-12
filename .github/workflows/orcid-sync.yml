@@ -16,60 +16,64 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install bibtexparser
-        run: pip install bibtexparser
+      - name: Install dependencies
+        run: pip install bibtexparser requests
 
       - name: Fetch and Convert ORCID
         run: |
-          # 1. Ensure directory exists
           mkdir -p _publications
-          
-          # 2. Fetch BibTeX (Added -f to fail on error and -L to follow redirects)
-          curl -f -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" \
-               -H "Accept: application/x-bibtex" > papers.bib || echo "Download failed"
-
-          # 3. Python script with extra error checking
           python - <<EOF
+          import requests
           import bibtexparser
           import os
 
-          if not os.path.exists('papers.bib') or os.path.getsize('papers.bib') == 0:
-              print("No papers.bib found or file is empty.")
-              exit(0)
+          orcid_id = "0000-0003-3376-0260"
+          headers = {"Accept": "application/x-bibtex"}
+          
+          # We call the 'works' endpoint which, when called with BibTeX headers, 
+          # should return all public works in one string.
+          url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
+          
+          response = requests.get(url, headers=headers)
+          
+          if response.status_code != 200 or len(response.text) < 50:
+              print(f"Failed to fetch BibTeX. Status: {response.status_code}")
+              # If the batch fetch fails, we exit to avoid deleting existing files
+              exit(1)
 
-          with open('papers.bib') as bibtex_file:
-              bib_database = bibtexparser.load(bibtex_file)
-
-          if not bib_database.entries:
-              print("No entries found in BibTeX.")
-              exit(0)
+          bib_database = bibtexparser.loads(response.text)
+          print(f"Found {len(bib_database.entries)} entries.")
 
           for entry in bib_database.entries:
+              # Determine Category
               category = "Journal"
               if entry.get('ENTRYTYPE') == 'inproceedings':
                   category = "Conference"
               elif entry.get('ENTRYTYPE') == 'book':
                   category = "Book"
               
-              clean_id = entry['ID'].replace('/', '_').replace(':', '_')
-              filename = f"_publications/{entry.get('year', '0000')}-{clean_id}.md"
+              # Create a clean filename
+              # Using the ID or Title to create a unique name
+              safe_id = entry.get('ID', entry.get('title', 'paper')).replace('/', '_').replace(':', '_')
+              year = entry.get('year', '0000')
+              filename = f"_publications/{year}-{safe_id}.md"
               
               with open(filename, 'w') as f:
                   f.write("---\n")
                   f.write(f"title: \"{entry.get('title', 'Untitled')}\"\n")
                   f.write(f"collection: publications\n")
                   f.write(f"category: {category}\n")
-                  f.write(f"date: {entry.get('year', '0000')}-01-01\n")
+                  f.write(f"date: {year}-01-01\n")
                   f.write(f"venue: \"{entry.get('journal', entry.get('booktitle', 'Unknown'))}\"\n")
                   f.write("---\n")
-                  f.write(f"\n{entry.get('abstract', 'No abstract available.')}\n")
+                  if 'abstract' in entry:
+                      f.write(f"\n{entry['abstract']}\n")
           EOF
 
-      - name: Commit and Push changes
+      - name: Commit and Push
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
-          # We add the whole directory instead of a wildcard to avoid the pathspec error
-          git add _publications
+          git add _publications/*.md
           git commit -m "Auto-sync ORCID publications" || exit 0
           git push
