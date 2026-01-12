@@ -12,13 +12,12 @@ jobs:
       - name: Fetch and Append BibTeX
         run: |
           mkdir -p _publications
-          # Reset the file
           echo "" > _publications/papers.bib
           
-          # 1. Get the list of IDs (JSON)
-          curl -H "Accept: application/json" "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" > summary.json
+          # 1. Fetch the full activities summary (JSON)
+          curl -H "Accept: application/json" "https://pub.orcid.org/v3.0/0000-0003-3376-0260/activities" > summary.json
           
-          # 2. Python loop with corrected pathing
+          # 2. Python logic with deeper path finding
           python3 - <<EOF
           import json
           import requests
@@ -28,34 +27,36 @@ jobs:
               with open('summary.json') as f:
                   data = json.load(f)
           except Exception as e:
-              print(f"Error loading JSON: {e}")
+              print(f"JSON Load Error: {e}")
               exit(1)
+
+          # Debugging: Print the top-level keys to see where 'works' is hiding
+          print(f"Root keys: {list(data.keys())}")
           
-          # Corrected path: data['group'] is usually the list
-          groups = data.get('group', [])
-          print(f"Total work groups found: {len(groups)}")
+          # The path is usually activities-summary -> works -> group
+          activities = data.get('activities-summary', {})
+          works_obj = activities.get('works', {})
+          groups = works_obj.get('group', [])
+
+          print(f"Work groups found: {len(groups)}")
+
+          if not groups:
+              print("Attempting fallback path for groups...")
+              groups = data.get('group', []) # Original path check
 
           with open('_publications/papers.bib', 'a') as bib_file:
               for group in groups:
-                  # ORCID groups can have multiple 'work-summary' entries; we take the first
                   summaries = group.get('work-summary', [])
-                  if not summaries:
-                      continue
+                  if not summaries: continue
                       
                   put_code = summaries[0].get('put-code')
-                  if not put_code:
-                      continue
-
                   url = f"https://pub.orcid.org/v3.0/0000-0003-3376-0260/work/{put_code}"
                   res = requests.get(url, headers={"Accept": "application/x-bibtex"})
                   
                   if res.status_code == 200:
                       bib_file.write(res.text + "\n\n")
-                      print(f"Successfully added put-code: {put_code}")
-                  else:
-                      print(f"Failed to fetch put-code {put_code}: Status {res.status_code}")
-                  
-                  time.sleep(0.1) 
+                      print(f"Added: {put_code}")
+                  time.sleep(0.1)
           EOF
 
       - name: Commit and Push
@@ -63,5 +64,5 @@ jobs:
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
           git add _publications/papers.bib
-          git commit -m "Updated papers.bib with individual entries" || exit 0
+          git commit -m "Updated papers.bib" || exit 0
           git push
