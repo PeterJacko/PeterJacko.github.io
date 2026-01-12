@@ -23,7 +23,7 @@ repository               : "PeterJacko/PeterJacko.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "/images/bio-photo.jpeg"
+  avatar           : "/images/bio-photo-PJ.jpg"
   name             : "Peter Jacko"
   pronouns         : # example: "she/her"  
   bio              : "Independent Consultant / Researcher & Associate Professor" # "Specialist in Multi-Armed Bandits, Clinical Trial Optimization, and Stochastic Scheduling."
