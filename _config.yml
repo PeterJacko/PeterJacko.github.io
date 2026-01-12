@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "mint" # The available themes options are "default", "air", "sunrise", "mint", "dirt" and "contrast"
-title                    : "Peter Jacko - Expertise Hub"
+title                    : "Peter Jacko"
 title_separator          : "-"
 name                     : &name "Peter Jacko"
 description              : &description "Independent Consultant / Researcher & Associate Professor at Lancaster University"   # Update this with a general description of your site, this is the default if not overridden by a page
