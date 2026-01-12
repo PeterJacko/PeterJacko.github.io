@@ -1,95 +1,34 @@
-name: Sync ORCID Publications
+name: Sync ORCID Minimal
 on:
-  schedule:
-    - cron: '0 0 * * 0'
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to trigger it manually via the Actions tab
 
 jobs:
-  orcid-to-pages:
+  test-download:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install bibtexparser requests
-
-      - name: Fetch and Convert ORCID
+      - name: Fetch BibTeX
         run: |
           mkdir -p _publications
-          python - <<EOF
-          import requests
-          import bibtexparser
-          import os
-          import time
+          # Using the 'works' endpoint with the BibTeX header
+          curl -L -H "Accept: application/x-bibtex" \
+            "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" > _publications/papers.bib
 
-          orcid_id = "0000-0003-3376-0260"
-          
-          # Step 1: Get the list of all work summaries (XML)
-          summary_url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
-          summary_response = requests.get(summary_url, headers={"Accept": "application/json"})
-          
-          if summary_response.status_code != 200:
-              print(f"Failed to fetch summaries. Status: {summary_response.status_code}")
-              exit(1)
-
-          data = summary_response.json()
-          groups = data.get('group', [])
-          print(f"Found {len(groups)} work groups.")
-
-          for group in groups:
-              # Get the 'put-code' for the best version of the work
-              work_summary = group.get('work-summary', [{}])[0]
-              put_code = work_summary.get('put-code')
-              
-              if not put_code:
-                  continue
-
-              # Step 2: Fetch BibTeX for this specific work
-              work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
-              work_response = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
-              
-              if work_response.status_code == 200 and len(work_response.text) > 10:
-                  bib_database = bibtexparser.loads(work_response.text)
-                  if not bib_database.entries:
-                      continue
-                      
-                  entry = bib_database.entries[0]
-                  
-                  # Determine Category
-                  category = "Journal"
-                  if entry.get('ENTRYTYPE') == 'inproceedings':
-                      category = "Conference"
-                  elif entry.get('ENTRYTYPE') == 'book':
-                      category = "Book"
-                  
-                  year = entry.get('year', '0000')
-                  # Create a unique filename using put-code to avoid collisions
-                  filename = f"_publications/{year}-{put_code}.md"
-                  
-                  with open(filename, 'w') as f:
-                      f.write("---\n")
-                      f.write(f"title: \"{entry.get('title', 'Untitled')}\"\n")
-                      f.write(f"collection: publications\n")
-                      f.write(f"category: {category}\n")
-                      f.write(f"date: {year}-01-01\n")
-                      f.write(f"venue: \"{entry.get('journal', entry.get('booktitle', 'Unknown'))}\"\n")
-                      f.write("---\n")
-                  
-                  print(f"Synced: {entry.get('title')[:50]}...")
-                  # Small sleep to be polite to the ORCID API
-                  time.sleep(0.1)
-          EOF
+      - name: Check if file is empty
+        run: |
+          if [ -s _publications/papers.bib ]; then
+            echo "Success: File has content."
+          else
+            echo "Failure: File is empty."
+            exit 1
+          fi
 
       - name: Commit and Push
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
-          git add _publications/*.md
-          git commit -m "Auto-sync ORCID publications" || exit 0
+          git add _publications/papers.bib
+          git commit -m "Test download of papers.bib" || exit 0
           git push
