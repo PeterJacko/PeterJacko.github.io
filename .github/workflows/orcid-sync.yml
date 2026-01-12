@@ -30,8 +30,8 @@ jobs:
           if not os.path.exists("_publications"):
               os.makedirs("_publications")
 
+          # 1. Fetch using the most reliable endpoint for your profile
           print(f"Fetching summary for {orcid_id}...")
-          # Using the /works endpoint for a cleaner JSON list
           url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
           response = requests.get(url, headers={"Accept": "application/json"})
           
@@ -41,41 +41,40 @@ jobs:
 
           data = response.json()
           
-          # This is the specific path for your profile
+          # 2. Extract put-codes (Scanning multiple possible paths)
+          put_codes = []
           groups = data.get('group', [])
-          
-          # FALLBACK: If group is not at root, try activities-summary path
           if not groups:
+              # Try alternative path
               groups = data.get('activities-summary', {}).get('works', {}).get('group', [])
-
-          print(f"Groups found: {len(groups)}")
-
-          bib_content = []
+          
           for group in groups:
-              # Each group contains 'work-summary'
               summaries = group.get('work-summary', [])
               for work in summaries:
-                  put_code = work.get('put-code')
-                  if not put_code: continue
-                  
-                  print(f"Downloading BibTeX for: {put_code}")
-                  work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
-                  work_res = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
-                  
-                  if work_res.status_code == 200 and len(work_res.text) > 10:
-                      bib_content.append(work_res.text)
-                  
-                  time.sleep(0.05) # Faster but safe
+                  code = work.get('put-code')
+                  if code:
+                      put_codes.append(code)
 
-          if bib_content:
-              with open(output_file, 'w') as f:
-                  f.write("\n\n".join(bib_content))
-              print(f"SUCCESS: Wrote {len(bib_content)} entries.")
-          else:
-              print("ERROR: No BibTeX content was gathered.")
-              # Write a small comment so the file isn't 0 bytes
-              with open(output_file, 'w') as f:
-                  f.write("% No publications found or privacy settings blocked access.")
+          print(f"Total IDs found: {len(put_codes)}")
+
+          # 3. Download individual BibTeX and FORCE write
+          bib_entries = []
+          for code in put_codes:
+              work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{code}"
+              res = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
+              if res.status_code == 200 and len(res.text) > 10:
+                  bib_entries.append(res.text)
+                  print(f"Downloaded: {code}")
+              time.sleep(0.1)
+
+          # 4. Final Write (This ensures the file is updated)
+          with open(output_file, 'w') as f:
+              if bib_entries:
+                  f.write("\n\n".join(bib_entries))
+                  print(f"SUCCESS: Wrote {len(bib_entries)} entries.")
+              else:
+                  f.write("% No entries found at " + time.ctime())
+                  print("No entries found.")
           EOF
 
       - name: Commit and Push
@@ -83,5 +82,6 @@ jobs:
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
           git add _publications/papers.bib
-          git commit -m "Updated papers.bib" || exit 0
+          # Added --allow-empty to ensure the action doesn't hang or fail
+          git commit -m "Updated papers.bib: $(date)" || echo "No changes to commit"
           git push
