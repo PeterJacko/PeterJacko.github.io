@@ -1,34 +1,54 @@
-name: Sync ORCID Minimal
+name: Sync ORCID to Single Bib
 on:
-  workflow_dispatch: # Allows you to trigger it manually via the Actions tab
+  workflow_dispatch:
 
 jobs:
-  test-download:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Fetch BibTeX
+      - name: Fetch and Append BibTeX
         run: |
           mkdir -p _publications
-          # Using the 'works' endpoint with the BibTeX header
-          curl -L -H "Accept: application/x-bibtex" \
-            "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" > _publications/papers.bib
+          # Create an empty file to start
+          > _publications/papers.bib
+          
+          # 1. Get the list of all "put-codes" (IDs) in JSON format
+          curl -H "Accept: application/json" "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" > summary.json
+          
+          # 2. Use a simple python loop to get BibTeX for each ID and append it
+          python3 - <<EOF
+          import json
+          import requests
+          import time
 
-      - name: Check if file is empty
-        run: |
-          if [ -s _publications/papers.bib ]; then
-            echo "Success: File has content."
-          else
-            echo "Failure: File is empty."
-            exit 1
-          fi
+          with open('summary.json') as f:
+              data = json.load(f)
+          
+          groups = data.get('group', [])
+          print(f"Found {len(groups)} works. Starting download...")
+
+          with open('_publications/papers.bib', 'a') as bib_file:
+              for group in groups:
+                  put_code = group['work-summary'][0]['put-code']
+                  url = f"https://pub.orcid.org/v3.0/0000-0003-3376-0260/work/{put_code}"
+                  
+                  # Requesting BibTeX for the specific individual work
+                  res = requests.get(url, headers={"Accept": "application/x-bibtex"})
+                  
+                  if res.status_code == 200:
+                      bib_file.write(res.text + "\n\n")
+                      print(f"Downloaded put-code: {put_code}")
+                  
+                  time.sleep(0.2) # Polite delay
+          EOF
 
       - name: Commit and Push
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
           git add _publications/papers.bib
-          git commit -m "Test download of papers.bib" || exit 0
+          git commit -m "Updated papers.bib with individual entries" || exit 0
           git push
