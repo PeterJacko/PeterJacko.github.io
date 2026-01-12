@@ -1,8 +1,8 @@
 name: Sync ORCID Publications
 on:
   schedule:
-    - cron: '0 0 * * 0' # Runs every Sunday at midnight
-  workflow_dispatch: # Allows you to trigger it manually
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
 
 jobs:
   orcid-to-pages:
@@ -21,30 +21,37 @@ jobs:
 
       - name: Fetch and Convert ORCID
         run: |
-          # 1. Fetch BibTeX from your specific ORCID
-          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" -H "Accept: application/x-bibtex" > papers.bib
+          # 1. Ensure directory exists
+          mkdir -p _publications
           
-          # 2. Run python script to create the .md files Jekyll expects
+          # 2. Fetch BibTeX (Added -f to fail on error and -L to follow redirects)
+          curl -f -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/works" \
+               -H "Accept: application/x-bibtex" > papers.bib || echo "Download failed"
+
+          # 3. Python script with extra error checking
           python - <<EOF
           import bibtexparser
           import os
 
-          if not os.path.exists('_publications'):
-              os.makedirs('_publications')
+          if not os.path.exists('papers.bib') or os.path.getsize('papers.bib') == 0:
+              print("No papers.bib found or file is empty.")
+              exit(0)
 
           with open('papers.bib') as bibtex_file:
               bib_database = bibtexparser.load(bibtex_file)
 
+          if not bib_database.entries:
+              print("No entries found in BibTeX.")
+              exit(0)
+
           for entry in bib_database.entries:
-              # Logic for Paper Types
               category = "Journal"
               if entry.get('ENTRYTYPE') == 'inproceedings':
                   category = "Conference"
               elif entry.get('ENTRYTYPE') == 'book':
                   category = "Book"
               
-              # Creating a safe filename
-              clean_id = entry['ID'].replace('/', '_')
+              clean_id = entry['ID'].replace('/', '_').replace(':', '_')
               filename = f"_publications/{entry.get('year', '0000')}-{clean_id}.md"
               
               with open(filename, 'w') as f:
@@ -62,7 +69,7 @@ jobs:
         run: |
           git config --global user.name 'ORCID-Bot'
           git config --global user.email 'bot@github.com'
-          git add _publications/*.md
-          # The '|| exit 0' ensures the workflow doesn't fail if there's nothing new to commit
+          # We add the whole directory instead of a wildcard to avoid the pathspec error
+          git add _publications
           git commit -m "Auto-sync ORCID publications" || exit 0
           git push
