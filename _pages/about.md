@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Peter Jacko - Expertise Hub"
+title: "Expertise Hub - Peter Jacko"
 author_profile: true
 redirect_from: 
   - /about/
