@@ -1,0 +1,22 @@
+name: Sync ORCID Publications
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight
+  workflow_dispatch: # Allows you to trigger it manually
+
+jobs:
+  orcid-to-bib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Fetch BibTeX from ORCID
+        run: |
+          curl -L "https://pub.orcid.org/v3.0/0000-0003-3376-0260/external-identifiers" -H "Accept: application/x-bibtex" > _publications/papers.bib
+      - name: Commit changes
+        run: |
+          git config --global user.name 'ORCID-Bot'
+          git config --global user.email 'bot@github.com'
+          git add _publications/papers.bib
+          git commit -m "Auto-update publications" || exit 0
+          git push
