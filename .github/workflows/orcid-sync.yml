@@ -26,48 +26,64 @@ jobs:
           import requests
           import bibtexparser
           import os
+          import time
 
           orcid_id = "0000-0003-3376-0260"
-          headers = {"Accept": "application/x-bibtex"}
           
-          # We call the 'works' endpoint which, when called with BibTeX headers, 
-          # should return all public works in one string.
-          url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
+          # Step 1: Get the list of all work summaries (XML)
+          summary_url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
+          summary_response = requests.get(summary_url, headers={"Accept": "application/json"})
           
-          response = requests.get(url, headers=headers)
-          
-          if response.status_code != 200 or len(response.text) < 50:
-              print(f"Failed to fetch BibTeX. Status: {response.status_code}")
-              # If the batch fetch fails, we exit to avoid deleting existing files
+          if summary_response.status_code != 200:
+              print(f"Failed to fetch summaries. Status: {summary_response.status_code}")
               exit(1)
 
-          bib_database = bibtexparser.loads(response.text)
-          print(f"Found {len(bib_database.entries)} entries.")
+          data = summary_response.json()
+          groups = data.get('group', [])
+          print(f"Found {len(groups)} work groups.")
 
-          for entry in bib_database.entries:
-              # Determine Category
-              category = "Journal"
-              if entry.get('ENTRYTYPE') == 'inproceedings':
-                  category = "Conference"
-              elif entry.get('ENTRYTYPE') == 'book':
-                  category = "Book"
+          for group in groups:
+              # Get the 'put-code' for the best version of the work
+              work_summary = group.get('work-summary', [{}])[0]
+              put_code = work_summary.get('put-code')
               
-              # Create a clean filename
-              # Using the ID or Title to create a unique name
-              safe_id = entry.get('ID', entry.get('title', 'paper')).replace('/', '_').replace(':', '_')
-              year = entry.get('year', '0000')
-              filename = f"_publications/{year}-{safe_id}.md"
+              if not put_code:
+                  continue
+
+              # Step 2: Fetch BibTeX for this specific work
+              work_url = f"https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}"
+              work_response = requests.get(work_url, headers={"Accept": "application/x-bibtex"})
               
-              with open(filename, 'w') as f:
-                  f.write("---\n")
-                  f.write(f"title: \"{entry.get('title', 'Untitled')}\"\n")
-                  f.write(f"collection: publications\n")
-                  f.write(f"category: {category}\n")
-                  f.write(f"date: {year}-01-01\n")
-                  f.write(f"venue: \"{entry.get('journal', entry.get('booktitle', 'Unknown'))}\"\n")
-                  f.write("---\n")
-                  if 'abstract' in entry:
-                      f.write(f"\n{entry['abstract']}\n")
+              if work_response.status_code == 200 and len(work_response.text) > 10:
+                  bib_database = bibtexparser.loads(work_response.text)
+                  if not bib_database.entries:
+                      continue
+                      
+                  entry = bib_database.entries[0]
+                  
+                  # Determine Category
+                  category = "Journal"
+                  if entry.get('ENTRYTYPE') == 'inproceedings':
+                      category = "Conference"
+                  elif entry.get('ENTRYTYPE') == 'book':
+                      category = "Book"
+                  
+                  year = entry.get('year', '0000')
+                  # Create a unique filename using put-code to avoid collisions
+                  filename = f"_publications/{year}-{put_code}.md"
+                  
+                  with open(filename, 'w') as f:
+                      f.write("---\n")
+                      f.write(f"title: \"{entry.get('title', 'Untitled')}\"\n")
+                      f.write(f"collection: publications\n")
+                      f.write(f"category: {category}\n")
+                      f.write(f"date: {year}-01-01\n")
+                      f.write(f"venue: \"{entry.get('journal', entry.get('booktitle', 'Unknown'))}\"\n")
+                      f.write("---\n")
+                  
+                  print(f"Synced: {entry.get('title')[:50]}...")
+                  # Small sleep to be polite to the ORCID API
+                  time.sleep(0.1)
           EOF
 
       - name: Commit and Push
