@@ -1,39 +1,41 @@
 ---
 layout: archive
-title: "Peter Jacko"
+title: "Expertise Hub"
 permalink: /
 author_profile: true
 ---
 
-I am a Senior Lecturer in the Department of Management Science at **Lancaster University**, and a Senior Decision Scientist at **Berry Consultants**. My work sits at the intersection of **Statistics, Operational Research, and Machine Learning**. 
+Welcome to my professional hub. I offer high-level **consultancy, research collaboration, and specialist training** at the intersection of Statistics, Operational Research, and Machine Learning. With over two decades of experience across academia and the pharmaceutical industry, I provide expertise in:
 
-My research focuses on the design and analysis of optimal priority rules for dynamic systems, with a particular emphasis on:
-* **Clinical Trials:** Developing adaptive and patient-centric designs.
-* **Resource Allocation:** Whittle index policies and restless bandits.
+* **Clinical Trials:** Designing efficient, patient-centric adaptive and platform trials.
+* **Resource Allocation:** Optimizing dynamic systems through restless bandits and index policies.
+* **Teaching & Mentoring:** Delivering bespoke professional training and high-impact research supervision.
+* **Strategic Leadership:** Proven track record in coordinating international research groups and mathematical science networks, with extensive evidence of service available on my [CV page](/cv/).
 
 ---
 
-# 📢 Recent News
+# 📢 Latest News & Insights
 
 {% for post in site.posts limit:5 %}
-  <article style="margin-bottom: 2em; border-bottom: 1px solid #eee; padding-bottom: 1em;">
+  <article style="margin-bottom: 2.5em; border-bottom: 1px solid #eee; padding-bottom: 1.5em;">
     <h3 style="margin-bottom: 0.2em;"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
     <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }}</small>
     
-    <div style="margin-top: 0.5em;">
+    <div style="margin-top: 0.8em;">
       {{ post.excerpt | strip_html | truncatewords: 50 }}
     </div>
 
-    <div style="margin-top: 1em; font-size: 0.9em;">
-      <a href="{{ base_path }}{{ post.url }}">Read More</a> | 
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ post.url }}" target="_blank">Share on LinkedIn</a> |
-      <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ site.url }}{{ post.url }}" target="_blank">Share on X</a>
+    <div style="margin-top: 1.2em; font-size: 0.85em; color: #444;">
+      <strong>Share:</strong>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">LinkedIn</a>
+      <a href="https://twitter.com/intent/tweet?text={{ post.title | url_encode }}&url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">X</a>
+      <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">WhatsApp</a>
+      <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this update from Peter Jacko: {{ site.url }}{{ post.url }}" style="margin-right: 10px;">Email</a>
     </div>
   </article>
 {% endfor %}
 
-[See all news](/posts/)
-
+[View Full Archive](/posts/)
 ---
 
 ## 📬 Stay Connected
