@@ -23,8 +23,8 @@ author_profile: true
 
 <section id="service" markdown="1">
 ## Professional Service and Leadership
-* **Coordinator (2025) and Board member (2018-)**, EURO Working Group on Stochastic Modelling
-* **Knowledge Exchange Champion (2025-)**, Lancaster University, for Knowledge Exchange Hub for Mathematical Sciences, UK
+* **Coordinator (2025 - ) and Board member (2018 - )**, EURO Working Group on Stochastic Modelling
+* **Knowledge Exchange Champion (2025 - )**, Knowledge Exchange Hub for Mathematical Sciences, UK
 * **Course Leader**, NATCOR Course on Stochastic Modelling
 * **Co-chair (2022)**, EURO PhD School on Reinforcement Learning Applied to Operations Research
 * **Expert in Operational Research**, UK EPSRC Mathematical Sciences Prioritisation Panel
@@ -32,17 +32,18 @@ author_profile: true
 
 <section id="experience" markdown="1">
 ## Work experience
-* **2021 - Present: Senior Lecturer (part-time)**
-  * Lancaster University, Management School, Department of Management Science
-  * Coordinator of Simulation and Stochastic Modelling research area
-* **2021 - 2025: Senior Decision Scientist (part-time)**
-  * Berry Consultants, UK
-* **2013 - 2021: Lecturer**
-  * Lancaster University, Management School, Department of Management Science
-* **2009 - 2014: Postdoctoral Fellow / Researcher / Co-Leader**
-  * Basque Center for Applied Mathematics (BCAM), Spain
-* **2003 - 2009: Research Fellow / Teaching Assistant**
-  * Universidad Carlos III de Madrid, Spain
+* **Lancaster University, UK (2013 - )**
+  * Senior Lecturer (part-time, 2021 - )
+  * Lecturer (2013 - 2021)
+  * Coordinator of Simulation and Stochastic Modelling research area (2021 - )
+  * Member of Data Science & AI Institute (2015 – )
+  * Member of STOR-i Doctoral Training Centre (2013 – ) 
+* **Berry Consultants, UK (2021 - 2025)**
+  * Senior Decision Scientist (part-time)
+* **Basque Center for Applied Mathematics (BCAM), Spain (2009 - 2014)**
+  * Group Co-Leader / Researcher / Postdoctoral Fellow 
+* **Universidad Carlos III de Madrid, Spain (2003 - 2009)**
+  * Research Fellow / Teaching Assistant
 </section>
 
 <section id="education" markdown="1">
