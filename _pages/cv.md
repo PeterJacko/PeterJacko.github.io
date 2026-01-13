@@ -17,15 +17,15 @@ author_profile: true
 ## Skills
 * **Disciplines:** Statistics, Operational Research, Machine Learning, Data Science, Computing & Communications
 * **Methods:** Markov Decision Processes, Dynamic Programming, Stochastic/Bayesian Analysis, Heuristics
-* **Scientific Software:** Julia, R, Matlab, Maple, Xpress-MP, FACTS
-* **Development:** Pascal, Delphi, C#, HTML/CSS, PHP, Markdown
+* **Scientific Computing:** Julia, R, Matlab, Maple, Xpress-MP, FACTS
+* **Software Development:** Pascal, Delphi, C#, HTML/CSS, PHP, Markdown
 </section>
 
 <section id="service" markdown="1">
 ## Professional Service and Leadership
 * **Coordinator (2025 - ) and Board member (2018 - )**, EURO Working Group on Stochastic Modelling
 * **Knowledge Exchange Champion (2025 - )**, Knowledge Exchange Hub for Mathematical Sciences, UK
-* **Course Leader**, NATCOR Course on Stochastic Modelling
+* **Course Leader (2023)**, NATCOR Course on Stochastic Modelling
 * **Co-chair (2022)**, EURO PhD School on Reinforcement Learning Applied to Operations Research
 * **Expert in Operational Research**, UK EPSRC Mathematical Sciences Prioritisation Panel
 </section>
