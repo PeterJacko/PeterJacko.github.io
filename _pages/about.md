@@ -36,7 +36,7 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
           <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
         {% endif %} -->
 
-        <button onclick="copyToClipboard()" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
+        <!-- <button onclick="copyToClipboard()" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button> -->
 
         <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
@@ -52,19 +52,6 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
         <a href="https://www.addtoany.com/add_to/mastodon?linkurl={{ base_path | append: post.url | url_encode }}" target="_blank" class="btn btn--mastodon" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Mastodon"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
       </section>
-
-      <script>
-      function copyToClipboard() {
-        const url = "{{ base_path }}{{ post.url }}";
-        navigator.clipboard.writeText(url).then(() => {
-          // Simple feedback for the user
-          const btn = event.currentTarget;
-          const originalText = btn.innerHTML;
-          btn.innerHTML = '<i class="fas fa-fw fa-check"></i><span> Copied!</span>';
-          setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-        });
-      }
-      </script>
 
       <!-- END copied from social_share.html -->
       
