@@ -14,14 +14,14 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
 ---
 
-# 📢 Latest Updates & Insights
+# Latest Updates
 
 {% for post in site.posts limit:10 %}
   <article style="margin-bottom: 3em; border-bottom: 1px solid #eee; padding-bottom: 2em;">
     
     {% if post.tags contains "news" %}
       <h3 style="margin-bottom: 0.2em;">News: {{ post.title }}</h3>
-      <small style="color: #666;">{{ post.date | date: "%Y %B %d" }}</small>
+      <small">{{ post.date | date: "%Y %B %d" }}</small>
       
       <div style="margin-top: 0.8em;">
         {{ post.content }}
@@ -79,32 +79,10 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
   </article>
 {% endfor %}
 
----
-
-# 📢 Latest News & Insights
-
-{% for post in site.posts limit:5 %}
-  <article style="margin-bottom: 2.5em; border-bottom: 1px solid #eee; padding-bottom: 1.5em;">
-    <h3 style="margin-bottom: 0.2em;"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
-    <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }}</small>
-    
-    <div style="margin-top: 0.8em;">
-      {{ post.excerpt | strip_html | truncatewords: 50 }}
-    </div>
-
-    <div style="margin-top: 1.2em; font-size: 0.85em; color: #444;">
-      <strong>Share:</strong>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">LinkedIn</a>
-      <a href="https://twitter.com/intent/tweet?text={{ post.title | url_encode }}&url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">X</a>
-      <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 10px;">WhatsApp</a>
-      <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this update from Peter Jacko: {{ site.url }}{{ post.url }}" style="margin-right: 10px;">Email</a>
-    </div>
-  </article>
-{% endfor %}
-
 [View Full Archive](/posts/)
+
 ---
 
-## 📬 Stay Connected
+## Stay Connected
 * **RSS Feed:** Subscribe via [RSS Feed]({{ base_path }}/feed.xml) for automatic updates.
 * **LinkedIn:** Connect for professional updates on [LinkedIn](https://www.linkedin.com/in/peterjacko/).
