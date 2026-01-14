@@ -27,7 +27,7 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
         {{ post.content }}
       </div>
 
-      <!-- BEGIN copied from social_share.html REPLACING page.title BY post.title -->
+      <!-- BEGIN copied from social_share.html REPLACING page.title BY post.title AND page.url BY post.url -->
 
       {% include base_path %}
 
@@ -38,24 +38,24 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
         <button onclick="copyToClipboard()" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
 
-        <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
+        <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
-        <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--success" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} WhatsApp" style="background-color: #25D366; border-color: #25D366;"><i class="fab fa-fw fa-whatsapp" aria-hidden="true"></i><span> WhatsApp</span></a>
+        <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--success" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} WhatsApp" style="background-color: #25D366; border-color: #25D366;"><i class="fab fa-fw fa-whatsapp" aria-hidden="true"></i><span> WhatsApp</span></a>
 
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--linkedin" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--linkedin" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 
-        <a href="https://bsky.app/intent/compose?text={{ post.title | url_encode }}%20{{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--bluesky" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Bluesky"><i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+        <a href="https://bsky.app/intent/compose?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--bluesky" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Bluesky"><i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
 
-        <a href="https://x.com/intent/post?text={{ post.title | url_encode }}%20{{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--x" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X"><i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span></a>
+        <a href="https://x.com/intent/post?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--x" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X"><i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span></a>
 
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--facebook" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--facebook" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-        <a href="https://www.addtoany.com/add_to/mastodon?linkurl={{ base_path | append: page.url | url_encode }}" target="_blank" class="btn btn--mastodon" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Mastodon"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+        <a href="https://www.addtoany.com/add_to/mastodon?linkurl={{ base_path | append: post.url | url_encode }}" target="_blank" class="btn btn--mastodon" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Mastodon"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
       </section>
 
       <script>
       function copyToClipboard() {
-        const url = "{{ base_path }}{{ page.url }}";
+        const url = "{{ base_path }}{{ post.url }}";
         navigator.clipboard.writeText(url).then(() => {
           // Simple feedback for the user
           const btn = event.currentTarget;
