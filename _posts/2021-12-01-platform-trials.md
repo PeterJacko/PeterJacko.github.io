@@ -1,0 +1,13 @@
+---
+title: "Platform Trials with Non-concurrent Controls"
+date: 2021-12-01
+header:
+  teaser: "/images/posts/2021-12-01-platform.jpg"
+share_img: "/images/posts/2021-12-01-platform.jpg"
+toc: false
+categories: [Clinical Trials]
+tags: [paper]
+---
+<img src="/images/posts/2021-12-01-platform.jpg" style="width: 200px; float: right; margin-left: 20px; border-radius: 8px;">
+Published paper **"On Model-Based Time Trend Adjustments in Platform Trials with Non-concurrent Controls"** as part of the EU Patient-Centric Clinical Trial Platforms (EU-PEARL) project.
+<div style="clear: both;"></div>
