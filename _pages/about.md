@@ -21,7 +21,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
     
     {% if post.tags contains "news" %}
       <h3 style="margin-bottom: 0.2em;">News: {{ post.title }}</h3>
-      <small>{{ post.date | date: "%Y %B %d" }}</small>
+      <small>{{ post.date | date: "%Y %B" }}</small>
       
       <div style="margin-top: 0.8em;">
         {{ post.content }}
@@ -65,7 +65,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
     {% else %}
       <h3 style="margin-bottom: 0.2em;"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
-      <small>{{ post.date | date: "%Y %B %d" }}</small>
+      <small>{{ post.date | date: "%Y %B" }}</small>
       
       <div style="margin-top: 0.8em;">
         {{ post.excerpt | strip_html | truncatewords: 60 }}
