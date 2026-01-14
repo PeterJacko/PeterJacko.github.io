@@ -21,7 +21,7 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
     
     {% if post.tags contains "news" %}
       <h3 style="margin-bottom: 0.2em;">News: {{ post.title }}</h3>
-      <small">{{ post.date | date: "%Y %B %d" }}</small>
+      <small>{{ post.date | date: "%Y %B %d" }}</small>
       
       <div style="margin-top: 0.8em;">
         {{ post.content }}
