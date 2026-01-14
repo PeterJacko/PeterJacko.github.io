@@ -1,0 +1,13 @@
+---
+title: "Paper: Routing with too much information?"
+date: 2022-05-01
+header:
+  teaser: "/images/posts/2022-05-01-routing.jpg"
+share_img: "/images/posts/2022-05-01-routing.jpg"
+toc: false
+categories: [Resource Allocation]
+tags: [news]
+---
+<img src="/images/posts/2022-05-01-routing.jpg" style="width: 200px; float: right; margin-left: 20px; border-radius: 8px;">
+I am pleased to announce the publication of our paper **"Routing with too much information?"** co-authored with E. Hyytia and R. Righter.
+<div style="clear: both;"></div>
