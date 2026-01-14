@@ -20,12 +20,14 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
   <article style="margin-bottom: 3em; border-bottom: 1px solid #eee; padding-bottom: 2em;">
     
     {% if post.tags contains "news" %}
-      <h3 style="margin-bottom: 0.2em; color: #333;">{{ post.title }}</h3>
-      <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }} • <strong>News</strong></small>
+      <h3 style="margin-bottom: 0.2em;">News: {{ post.title }}</h3>
+      <small style="color: #666;">{{ post.date | date: "%Y %B %d" }}</small>
       
-      <div style="margin-top: 1em; line-height: 1.6;">
+      <div style="margin-top: 0.8em;">
         {{ post.content }}
       </div>
+
+      {% include social-share.html %}
 
       <div style="margin-top: 1.5em; font-size: 0.85em; background: #f9f9f9; padding: 10px; border-radius: 4px;">
         <strong style="margin-right: 10px;">Share update:</strong>
@@ -37,7 +39,7 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
     {% else %}
       <h3 style="margin-bottom: 0.2em;"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
-      <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }} • <strong>Blog Post</strong></small>
+      <small style="color: #666;">{{ post.date | date: "%Y %B %d" }}</small>
       
       <div style="margin-top: 0.8em;">
         {{ post.excerpt | strip_html | truncatewords: 60 }}
