@@ -31,7 +31,6 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
       {% include base_path %}
 
-      <div style="clear: both;"></div>
       <section class="page__share">
       <!--  {% if site.data.ui-text[site.locale].share_on_label %}
           <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
