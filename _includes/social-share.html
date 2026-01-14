@@ -5,7 +5,7 @@
     <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
   {% endif %} -->
 
-  <button onclick="copyUrl(this)" data-url="{{ site.url }}{{ base_path }}{{ page.url }}" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
+  <button class="btn btn--light js-copy-link" data-url="{{ site.url }}{{ base_path }}{{ page.url }}" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
 
   <a href="mailto:?subject={{ page.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
@@ -23,44 +23,51 @@
 </section>
 
 <script>
-function copyUrl(btn) {
-  // 1. Get the URL from the data-url attribute
-  const urlToCopy = btn.getAttribute('data-url');
+(function() {
+  document.addEventListener('click', function (event) {
+    // Check if the clicked element is our copy button or inside it
+    const btn = event.target.closest('.js-copy-link');
+    if (!btn) return;
 
-  // 2. Attempt to copy
-  if (navigator.clipboard && window.isSecureContext) {
-    // Modern approach
-    navigator.clipboard.writeText(urlToCopy).then(() => {
-      showSuccess(btn);
-    }).catch(err => {
+    event.preventDefault();
+    const urlToCopy = btn.getAttribute('data-url');
+
+    // Attempt to copy
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(urlToCopy).then(() => {
+        updateBtn(btn);
+      }).catch(() => {
+        fallbackCopy(btn, urlToCopy);
+      });
+    } else {
       fallbackCopy(btn, urlToCopy);
-    });
-  } else {
-    // Fallback approach
-    fallbackCopy(btn, urlToCopy);
-  }
-}
+    }
+  });
 
-function fallbackCopy(btn, text) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  try {
-    document.execCommand('copy');
-    showSuccess(btn);
-  } catch (err) {
-    console.error('Fallback copy failed', err);
+  function fallbackCopy(btn, text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed"; // Avoid scrolling to bottom
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      updateBtn(btn);
+    } catch (err) {
+      console.error('Unable to copy', err);
+    }
+    document.body.removeChild(textArea);
   }
-  document.body.removeChild(textArea);
-}
 
-function showSuccess(btn) {
-  const originalContent = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-fw fa-check" style="color: #28a745;"></i><span> Copied!</span>';
-  setTimeout(() => {
-    btn.innerHTML = originalContent;
-  }, 2000);
-}
+  function updateBtn(btn) {
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-fw fa-check" style="color: #28a745;"></i><span> Copied!</span>';
+    btn.classList.add('btn--success');
+    setTimeout(() => {
+      btn.innerHTML = originalContent;
+      btn.classList.remove('btn--success');
+    }, 2000);
+  }
+})();
 </script>
