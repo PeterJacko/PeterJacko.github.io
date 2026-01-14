@@ -6,7 +6,7 @@
     <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
   {% endif %} -->
 
-  <button onclick="copyToClipboard()" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
+  <button onclick="copyToClipboard(this, '{{ base_path }}{{ page.url }}')" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button>
 
   <a href="mailto:?subject={{ page.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
@@ -24,14 +24,29 @@
 </section>
 
 <script>
-function copyToClipboard() {
-  const url = "{{ base_path }}{{ page.url }}";
-  navigator.clipboard.writeText(url).then(() => {
-    // Simple feedback for the user
-    const btn = event.currentTarget;
-    const originalText = btn.innerHTML;
+function copyToClipboard(btn, url) {
+  // Use the full URL including the domain
+  const fullURL = window.location.origin + url;
+
+  navigator.clipboard.writeText(fullURL).then(() => {
+    // Feedback logic using the passed 'btn' reference
+    const originalContent = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-fw fa-check"></i><span> Copied!</span>';
-    setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      btn.innerHTML = originalContent;
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+    // Fallback for older browsers or non-HTTPS
+    const textArea = document.createElement("textarea");
+    textArea.value = fullURL;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    alert("Link copied to clipboard!");
   });
 }
 </script>
