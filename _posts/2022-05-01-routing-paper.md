@@ -1,5 +1,5 @@
 ---
-title: "Paper: Routing with too much information?"
+title: "Routing with too much information?"
 date: 2022-05-01
 header:
   teaser: "/images/posts/2022-05-01-routing.jpg"
