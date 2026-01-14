@@ -14,6 +14,45 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
 
 ---
 
+# 📢 Latest Updates & Insights
+
+{% for post in site.posts limit:10 %}
+  <article style="margin-bottom: 3em; border-bottom: 1px solid #eee; padding-bottom: 2em;">
+    
+    {% if post.tags contains "news" %}
+      <h3 style="margin-bottom: 0.2em; color: #333;">{{ post.title }}</h3>
+      <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }} • <strong>News</strong></small>
+      
+      <div style="margin-top: 1em; line-height: 1.6;">
+        {{ post.content }}
+      </div>
+
+      <div style="margin-top: 1.5em; font-size: 0.85em; background: #f9f9f9; padding: 10px; border-radius: 4px;">
+        <strong style="margin-right: 10px;">Share update:</strong>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 12px;">LinkedIn</a>
+        <a href="https://x.com/intent/post?text={{ post.title | url_encode }}&url={{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 12px;">X</a>
+        <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ site.url }}{{ post.url }}" target="_blank" style="margin-right: 12px;">WhatsApp</a>
+        <a href="mailto:?subject={{ post.title | url_encode }}&body={{ site.url }}{{ post.url }}">Email</a>
+      </div>
+
+    {% else %}
+      <h3 style="margin-bottom: 0.2em;"><a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a></h3>
+      <small style="color: #666;">{{ post.date | date: "%B %d, %Y" }} • <strong>Blog Post</strong></small>
+      
+      <div style="margin-top: 0.8em;">
+        {{ post.excerpt | strip_html | truncatewords: 60 }}
+      </div>
+      
+      <div style="margin-top: 1em;">
+        <a href="{{ base_path }}{{ post.url }}" style="font-weight: bold;">Read full article →</a>
+      </div>
+    {% endif %}
+
+  </article>
+{% endfor %}
+
+---
+
 # 📢 Latest News & Insights
 
 {% for post in site.posts limit:5 %}
