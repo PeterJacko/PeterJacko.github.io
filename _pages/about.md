@@ -72,7 +72,7 @@ Welcome to my professional hub. I offer high-level **consultancy, research colla
       </div>
       
       <div style="margin-top: 1em;">
-        <a href="{{ base_path }}{{ post.url }}" style="font-weight: bold;">Read full article →</a>
+        <a href="{{ base_path }}{{ post.url }}" style="font-weight: bold;">Read more →</a>
       </div>
     {% endif %}
 
