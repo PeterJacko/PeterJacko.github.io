@@ -126,7 +126,7 @@
   (twitter, $twitter-color); 
   (x, $x-color); 
   (whatsapp, $whatsapp-color); 
-  (email, $email-color); 
+  (mail, $mail-color); 
 
   @each $socialnetwork, $color in $social {
     &--#{$socialnetwork} {
