@@ -85,4 +85,4 @@ Welcome to my expertise hub. I offer **consultancy, knowledge exchange, research
 
 ## Stay Connected
 * **RSS Feed:** Subscribe via [RSS Feed]({{ base_path }}/feed.xml) for automatic updates.
-* **LinkedIn:** Connect for professional updates on [LinkedIn](https://www.linkedin.com/in/peterjacko/).
+* **LinkedIn:** Connect for professional updates on [LinkedIn](https://www.linkedin.com/in/peter-jacko-07755750/){:target="_blank"}.
