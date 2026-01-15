@@ -54,8 +54,8 @@ author_profile: true
 
 <section id="postgrad-teaching" markdown="1">
 ## Postgraduate Teaching & Leadership
-* **Course Leader:** NATCOR Course on Stochastic Modelling, UK (2023)
 * **Co-chair:** EURO PhD School on Reinforcement Learning Applied to Operations Research, Germany (2022)
+* **Course Leader:** NATCOR Course on Stochastic Modelling, UK (2021)
 * **Curriculum Design:** Dissertation; Simulation and Stochastic Modelling, MSc Business Analytics, Lancaster University, UK (2013-)
 * **Teaching:** Probability and Stochastic Processes, MRes Statistics and Operational Research, STOR-i, Lancaster University, UK (2013–2021)
 </section>
@@ -67,7 +67,7 @@ author_profile: true
 
 <section id="undergrad-teaching" markdown="1">
 ## Undergraduate Teaching
-* **Curriculum Design and Teaching:** Business Analytics; Statistics and Computing for Management, Lancaster University, UK (2013–)
+* **Curriculum Design, Course Leading and Teaching:** Business Analytics; Statistics and Computing for Management, Lancaster University, UK (2013–)
 * **Teaching Assistant:** Business Administration; Operational Research, Universidad Carlos III de Madrid, Spain (2003–2007)
 </section>
 
