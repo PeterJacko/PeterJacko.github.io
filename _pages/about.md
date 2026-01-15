@@ -31,7 +31,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
       {% include base_path %}
 
-      <section class="page__share" style="text-decoration: none;">
+      <section class="page__share">
       <!--  {% if site.data.ui-text[site.locale].share_on_label %}
           <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
         {% endif %} -->
