@@ -5,6 +5,8 @@ permalink: /clinical-trials/
 author_profile: true
 ---
 
+THIS PAGE NEEDS TO BE CORRECTED
+
 My research in clinical trials focuses on the development of adaptive designs and platform trials, utilizing sequential decision-making and multi-armed bandit models to improve efficiency and patient-centricity.
 
 <section id="software" markdown="1">
