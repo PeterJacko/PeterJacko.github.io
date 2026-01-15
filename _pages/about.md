@@ -17,7 +17,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 # Latest Updates
 
 {% for post in site.posts limit:20 %}
-  <article style="margin-bottom: 3em; border-bottom: 1px solid #eee; padding-bottom: 2em;">
+  <article style="margin-bottom: 0em; border-bottom: 1px solid var(--global-border-color); padding-bottom: 1em;">
     
     {% if post.tags contains "news" %}
       <h3 style="margin-bottom: 0.2em;">News: {{ post.title }}</h3>
