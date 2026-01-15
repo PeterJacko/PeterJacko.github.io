@@ -46,11 +46,11 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
         <a href="https://bsky.app/intent/compose?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--bluesky" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Bluesky"><i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
 
-        <a href="https://x.com/intent/post?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--x" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X"><i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span></a>
-
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--facebook" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
         <a href="https://www.addtoany.com/add_to/mastodon?linkurl={{ base_path | append: post.url | url_encode }}" target="_blank" class="btn btn--mastodon" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Mastodon"><i class="fab fa-fw fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+        <a href="https://x.com/intent/post?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--x" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X"><i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span></a>
       </section>
 
       <!-- END copied from social_share.html -->
