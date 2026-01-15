@@ -79,7 +79,7 @@ Welcome to my expertise hub. I offer **consultancy, knowledge exchange, research
   </article>
 {% endfor %}
 
-[View Full Archive](/posts/)
+[View All Posts](/posts/)
 
 ---
 
