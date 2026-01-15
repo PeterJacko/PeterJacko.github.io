@@ -5,6 +5,8 @@ permalink: /resource-allocation/
 author_profile: true
 ---
 
+THIS PAGE NEEDS TO BE CORRECTED
+
 My research in resource allocation centers on the design and analysis of optimal priority rules for dynamic systems. I specialize in the Gittins index and Whittle index for multi-armed bandits, particularly for applications in telecommunications, sensor networks, and stochastic scheduling.
 
 <section id="expertise" markdown="1">
