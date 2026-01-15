@@ -7,7 +7,7 @@
 
   <!-- <button onclick="copyToClipboard()" class="btn btn--light" title="Copy Link to Clipboard" style="cursor: pointer;"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> Link &nbsp;</span></button> -->
 
-  <a href="mailto:?subject={{ page.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
+  <a href="mailto:?subject={{ page.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
   <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ base_path }}{{ page.url | url_encode }}" target="_blank" class="btn btn--whatsapp" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} WhatsApp"><i class="fab fa-fw fa-whatsapp" aria-hidden="true"></i><span> WhatsApp</span></a>
 
