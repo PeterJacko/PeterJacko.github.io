@@ -40,7 +40,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
         <a href="mailto:?subject={{ post.title | url_encode }}&body=Check out this post from Peter Jacko: {{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--mail" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Email" style="background-color: #777; border-color: #777;"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span></a>
 
-        <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--whatsapp" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} WhatsApp" style="background-color: #25D366; border-color: #25D366;"><i class="fab fa-fw fa-whatsapp" aria-hidden="true"></i><span> WhatsApp</span></a>
+        <a href="https://api.whatsapp.com/send?text={{ post.title | url_encode }}%20{{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--whatsapp" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} WhatsApp"><i class="fab fa-fw fa-whatsapp" aria-hidden="true"></i><span> WhatsApp</span></a>
 
         <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ base_path }}{{ post.url | url_encode }}" target="_blank" class="btn btn--linkedin" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 
