@@ -19,7 +19,7 @@
 
   @media screen and (min-width: $large) { /* OLD: min-width: $sidebar-screen-min-width */
     height: 100vh;
-    overflow-y: hidden;               // auto: Add scrollbar if the sidebar is too long
+    // overflow-y: auto;               // auto: Add scrollbar if the sidebar is too long
     position: fixed;
     padding-top: $masthead-height;
   }
