@@ -14,10 +14,12 @@ author_profile: true
 </section>
 
 <section id="skills" markdown="1">
-## Skills
+## Skills and Interests
 * **Disciplines:** Statistics, Operational Research, Machine Learning, Data Science, Computing & Communications
+* **Areas:** Stochastic Modelling, Simulation, Performance Evaluation, Optimisation, Reinforcement Learning
+* **Problems:** Sequential Decisions, Resource Allocation, Adaptive Trials, Multi-armed Bandits, Scheduling
 * **Methods:** Markov Decision Processes, Dynamic Programming, Stochastic/Bayesian Analysis, Heuristics
-* **Scientific Computing:** Julia, R, Matlab, Maple, Xpress-MP, FACTS
+* **Scientific Computing:** Julia, R, Matlab, Maple, Xpress-MP, LaTeX, FACTS
 * **Software Development:** Pascal, Delphi, C#, HTML/CSS, PHP, Markdown
 </section>
 
@@ -25,9 +27,12 @@ author_profile: true
 ## Professional Service and Leadership
 * **Coordinator (2025 - ) and Board member (2018 - )**, EURO Working Group on Stochastic Modelling
 * **Knowledge Exchange Champion (2025 - )**, Knowledge Exchange Hub for Mathematical Sciences, UK
-* **Course Leader (2023)**, NATCOR Course on Stochastic Modelling
 * **Co-chair (2022)**, EURO PhD School on Reinforcement Learning Applied to Operations Research
+* **Course Leader (2021)**, NATCOR Course on Stochastic Modelling
 * **Expert in Operational Research**, UK EPSRC Mathematical Sciences Prioritisation Panel
+* **PhD Examiner** (2016 - ), 5 times
+* **Conference Co-chair/Co-organiser (2011 - )**, 5 times
+* **Member** of several professional societies and working groups
 </section>
 
 <section id="experience" markdown="1">
@@ -49,6 +54,7 @@ author_profile: true
 <section id="education" markdown="1">
 ## Education
 * **Postgraduate Certificate in Academic Practice (2019)**, Lancaster University, UK
+* **Fellowship (2015)**, The Higher Education Academy, UK
 * **PhD cum laude in Business Administration and Quantitative Methods (2009)**, Universidad Carlos III de Madrid, Spain
 * **DEA (MRes equivalent) in Statistics and Operations Research (2006)**, Universidad Carlos III de Madrid, Spain
 * **Mgr (MSc equivalent) in Mathematics (2003)**, P. J. Šafárik University in Košice, Slovakia
