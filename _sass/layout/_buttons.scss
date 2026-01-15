@@ -131,9 +131,11 @@
   @each $socialnetwork, $color in $social {
     &--#{$socialnetwork} {
       background-color: $color;
-
+      text-decoration: none;
+       
       &:hover {
         background-color: mix(#000, $color, 20%);
+        text-decoration: none;
       }
     }
   }
