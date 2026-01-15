@@ -64,7 +64,9 @@ author_profile: true
 <section id="publications" markdown="1">
 ## Publications
 [View list on Google Scholar](https://scholar.google.com/citations?user=Ym1nWHEAAAAJ)
+ 
 [View list on ORCID](https://orcid.org/0000-0003-3376-0260)
+
 [View list on Scopus](https://www.scopus.com/authid/detail.uri?authorId=16021904300)
 
 {% include base_path %}
