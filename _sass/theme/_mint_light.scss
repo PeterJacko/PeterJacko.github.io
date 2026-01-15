@@ -16,8 +16,8 @@ $link                      : #11999e;
 $link-dark                 : mix(#000, $link, 25%);
 $link-light                : mix(#fff, $link, 25%);
 $footer                    : #30e3ca;
-$border                    : mix(#fff, $text, 75%);
-$border-dark               : mix(#fff, $text, 90%); /* actually this is lighter than $border in the light mode */
+$border                    : mix($background, $text, 75%);
+$border-dark               : mix($background, $border, 50%); /* actually this is lighter than $border in the light mode */
 
 /* Color codes used for the site */
 $danger-color               : #e74c3c;
