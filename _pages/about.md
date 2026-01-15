@@ -16,7 +16,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
 # Latest Updates
 
-{% for post in site.posts limit:10 %}
+{% for post in site.posts limit:20 %}
   <article style="margin-bottom: 3em; border-bottom: 1px solid #eee; padding-bottom: 2em;">
     
     {% if post.tags contains "news" %}
@@ -31,7 +31,7 @@ Welcome to my expertise hub. I offer **consultancy, research collaboration, and 
 
       {% include base_path %}
 
-      <section class="page__share">
+      <section class="page__share" style="text-decoration: none;">
       <!--  {% if site.data.ui-text[site.locale].share_on_label %}
           <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
         {% endif %} -->
