@@ -31,7 +31,7 @@ author_profile: true
 * **Co-chair (2022)**, EURO PhD School on Reinforcement Learning Applied to Operations Research
 * **Course Leader (2021)**, NATCOR Course on Stochastic Modelling
 * **Expert in Operational Research**, UK EPSRC Mathematical Sciences Prioritisation Panel
-* **PhD Examiner** (2016 - ), 5 times
+* **PhD Examiner (2016 - )**, 5 times
 * **Conference Co-chair/Co-organiser (2011 - )**, 5 times
 * **Member** of several professional societies and working groups
 </section>
