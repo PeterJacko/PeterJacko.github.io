@@ -17,7 +17,7 @@ author_profile: true
 <section id="skills" markdown="1">
 ## Skills and Interests
 * **Disciplines:** Statistics, Operational Research, Machine Learning, Data Science, Computing & Communications
-* **Areas:** Stochastic Modelling, Simulation, Performance Evaluation, Optimisation, Reinforcement Learning
+* **Areas:** Stochastic Modelling, Biostatistics, Simulation, Performance Evaluation, Optimisation, Reinforcement Learning
 * **Problems:** Sequential Decisions, Resource Allocation, Adaptive Trials, Multi-armed Bandits, Scheduling
 * **Methods:** Markov Decision Processes, Dynamic Programming, Stochastic/Bayesian Analysis, Heuristics
 * **Scientific Computing:** Julia, R, Matlab, Maple, Xpress-MP, LaTeX, FACTS
