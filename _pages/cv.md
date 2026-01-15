@@ -8,6 +8,7 @@ author_profile: true
 <section id="awards" markdown="1">
 ## Awards & Honors
 * **SIG of the Year Award (Randomisation SIG) (2025)** - *Statisticians in the Pharmaceutical Industry (PSI), UK*
+* **Fellowship (2015)**, The Higher Education Academy, UK
 * **The Honourable Mention of Dean (2003)** - *P. J. Šafárik University in Košice, Slovakia*
 * **The Prize of Rector on Occasion of the Students' Day (2001)** - *P. J. Šafárik University in Košice, Slovakia*
 * **Third Prize in Mathematics (2001)** - *P. J. Šafárik University round, Students Research Conference*
@@ -54,7 +55,6 @@ author_profile: true
 <section id="education" markdown="1">
 ## Education
 * **Postgraduate Certificate in Academic Practice (2019)**, Lancaster University, UK
-* **Fellowship (2015)**, The Higher Education Academy, UK
 * **PhD cum laude in Business Administration and Quantitative Methods (2009)**, Universidad Carlos III de Madrid, Spain
 * **DEA (MRes equivalent) in Statistics and Operations Research (2006)**, Universidad Carlos III de Madrid, Spain
 * **Mgr (MSc equivalent) in Mathematics (2003)**, P. J. Šafárik University in Košice, Slovakia
