@@ -12,7 +12,7 @@ $background-light           : #ffffff;
 $background-lighter        : #fafbfb;
 $text                      : #40514e;
 $text-muted                : #5c6d6a;
-$link                      : #11999e;
+$link                      : $primary-color;
 $link-dark                 : mix(#000, $link, 25%);
 $link-light                : mix(#fff, $link, 25%);
 $footer                    : #30e3ca;
