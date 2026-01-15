@@ -8,9 +8,9 @@ $background-light           : #243430;
 $background-lighter         : #2e443f;
 $text                       : #e8f5f3;
 $text-muted                 : #b8d5d1;
-$link                       : #4effd9;
-$link-dark                  : #7cffdf;
-$link-light                 : #2bd4bd;
+$link                       : $primary-color;
+$link-dark                  : mix(#000, $link, 25%);
+$link-light                 : mix(#fff, $link, 25%);
 $footer                     : #0f1614;
 $border                     : #2e443f;
 $border-light               : mix($background, $border, 50%); /* actually this is darker than $border in the dark mode */
