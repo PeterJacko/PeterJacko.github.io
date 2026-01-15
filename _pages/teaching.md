@@ -62,7 +62,7 @@ author_profile: true
 
 <section id="dissertations" markdown="1">
 ## Master Dissertation Supervision
-* **MSc Dissertation Supervision:** on average, 3-4 students per year at Lancaster University, UK (2020–2025) and worldwide (e.g., University of Manchester, Universidad de Paid Vasco, University of Iowa, University of Pisa, Comenius University).
+* **MSc Dissertation Supervision:** on average, ~3 students per year at Lancaster University, UK and worldwide (University of Manchester, Universidad de Paid Vasco, University of Iowa, University of Pisa, Comenius University).
 </section>
 
 <section id="undergrad-teaching" markdown="1">
