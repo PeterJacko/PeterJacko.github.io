@@ -63,11 +63,11 @@ author_profile: true
 
 <section id="publications" markdown="1">
 ## Publications
-* [View list on Google Scholar](https://scholar.google.com/citations?user=Ym1nWHEAAAAJ){:target="_blank"}
+[View list on Google Scholar](https://scholar.google.com/citations?user=Ym1nWHEAAAAJ){:target="_blank"}
  
-* [View list on ORCID](https://orcid.org/0000-0003-3376-0260){:target="_blank"}
+[View list on ORCID](https://orcid.org/0000-0003-3376-0260){:target="_blank"}
 
-* [View list on Scopus](https://www.scopus.com/authid/detail.uri?authorId=16021904300){:target="_blank"}
+[View list on Scopus](https://www.scopus.com/authid/detail.uri?authorId=16021904300){:target="_blank"}
 
 {% include base_path %}
 {% for post in site.publications reversed %}
