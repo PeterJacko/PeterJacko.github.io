@@ -9,7 +9,7 @@ Welcome to my expertise hub. I offer **consultancy, knowledge exchange, research
 
 * **Clinical Trials:** Designing efficient, patient-centric adaptive and platform trials using valid biostatistics methods and guided by computer simulation.
 * **Resource Allocation:** Optimizing dynamic systems through stochastic modelling, reinforcement learning and index policies.
-* **Teaching & Mentoring:** Delivering bespoke professional training and high-impact research supervision.
+* **Teaching & Mentoring:** Delivering bespoke professional training and developing successful academic researchers and applied scientists.
 * **Strategic Leadership:** Proven track record in coordinating international research groups and mathematical science networks, with extensive evidence of service available on my [CV page](/cv/).
 
 ---
