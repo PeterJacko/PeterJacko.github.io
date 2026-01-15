@@ -7,7 +7,7 @@ author_profile: true
 
 Welcome to my expertise hub. I offer **consultancy, knowledge exchange, research collaboration, and specialist training** on a variety of topics in Statistics and Operational Research. With over two decades of experience across academia and the pharmaceutical industry, I provide expertise in:
 
-* **Clinical Trials:** Designing efficient, patient-centric adaptive and platform trials.
+* **Clinical Trials:** Designing efficient, patient-centric adaptive and platform trials guided by computer simulation.
 * **Resource Allocation:** Optimizing dynamic systems through reinforcement learning and index policies.
 * **Teaching & Mentoring:** Delivering bespoke professional training and high-impact research supervision.
 * **Strategic Leadership:** Proven track record in coordinating international research groups and mathematical science networks, with extensive evidence of service available on my [CV page](/cv/).
